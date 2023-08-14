@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "matrix.hpp"
+#include <chrono>
 
 int main() {
     // size_t rows = 2;
@@ -78,7 +79,33 @@ int main() {
         }
         std::cout << std::endl;
     }
+
+    std::vector<std::vector<double>> data1;
+    std::vector<std::vector<double>> data2;
+
+    for(int i=0; i<512; i++) {
+        std::vector<double> row1;
+        std::vector<double> row2;
+        for(int j=0; j<512; j++) {
+            row1.push_back(i);
+            row2.push_back(-i);
+        }
+        data1.push_back(row1);
+        data2.push_back(row2);
+    }
     
+    // From tests, multiplication of two 512 x 512 matrices takes 0.75 seconds
+
+    Matrix test9 = Matrix(512, 512, data1);
+    Matrix test10 = Matrix(512, 512, data2);
+
+    auto start = std::chrono::high_resolution_clock::now();
+    Matrix test11 = test9*test10;
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+    std::cout << "Time taken: " << duration.count() << " seconds" << std::endl;
+
+
     return 0;
 
 
