@@ -3,8 +3,7 @@
 #include <math.h>
 #include <vector>
 #include <stdexcept>
-#include "matrix.hpp"
-#include <random>
+#include "simple_matrix.hpp"
 
 // We really should use a "flattened" 1-d vector to represent the data in the matrix
 // https://stackoverflow.com/questions/17259877/1d-or-2d-array-whats-faster
@@ -155,37 +154,6 @@ Matrix Matrix::hadamard(const Matrix& other) const {
         }
     }
     return result;
-}
-Matrix Matrix::ReLU() {
-    for(int i = 0; i<rows; i++) {
-        for(int j = 0; j<cols; j++){
-            data[i][j] = data[i][j] > 0 ? data[i][j] : 0;
-        }
-    }
-}
-Matrix Matrix::dRelu() {
-    for(int i = 0; i<rows; i++) {
-        for(int j = 0; j<cols; j++){
-            data[i][j] = data[i][j] > 0 ? 1 : 0;
-        }
-    }
-}
-
-
-Matrix Matrix::uniform_initialization() {
-    std::random_device rd;    // Seed the random number generator
-    std::mt19937 gen(rd());   // Mersenne Twister engine for random numbers
-
-    int minRange = -.1;        // Minimum value of the range
-    int maxRange = .1;        // Maximum value of the range
-
-    std::uniform_int_distribution<int> dist(minRange, maxRange);
-
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            data[i][j] = dist(gen);
-        }
-    }
 }
 
 // Matrix Matrix::vec_mul(const std::vector vec) const {

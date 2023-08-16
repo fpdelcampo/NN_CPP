@@ -6,6 +6,10 @@
 
 class Matrix{
 public:
+    size_t rows;
+    size_t cols;
+    std::vector<std::vector<double>> data;
+
     Matrix(size_t num_rows, size_t num_cols, std::vector<std::vector<double>> data);
     Matrix(size_t num_rows, size_t num_cols);
     Matrix();
@@ -17,10 +21,9 @@ public:
     Matrix operator*(const Matrix& other) const;
     Matrix operator*(const float scalar) const;
     Matrix hadamard(const Matrix& other) const;
+    Matrix ReLU();
     // ~Matrix();
     // testing git
     // Instance Fields
-    std::vector<std::vector<double>> data;
-    size_t rows;
-    size_t cols;
+    
 };

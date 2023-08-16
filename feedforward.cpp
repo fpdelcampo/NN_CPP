@@ -5,5 +5,6 @@ class FeedForward {
     public:
         virtual void forward() const = 0;
         virtual void backward() const = 0;
+        
 
 };
