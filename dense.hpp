@@ -18,10 +18,10 @@ class Dense {
         Matrix gradient_biases;  
         Matrix output;
         Matrix input;
-        double learning_rate;
+        // double learning_rate;
         
-        Dense(size_t in, size_t out, double lr);
+        Dense(size_t in, size_t out);
         void forward(Matrix mat);
-        void backward(Matrix mat);
+        Matrix backward(Matrix mat, double lr);
         // Matrix uniform_initialization(Matrix mat);
 };
