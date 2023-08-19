@@ -16,12 +16,15 @@ class Dense {
         Matrix biases;
         Matrix gradient_weights;
         Matrix gradient_biases;  
-        Matrix output;
         Matrix input;
+        Matrix intermediary;
+        Matrix output;
+        double calls;
         // double learning_rate;
         
         Dense(size_t in, size_t out);
         void forward(Matrix mat);
         Matrix backward(Matrix mat, double lr);
+        void update();
         // Matrix uniform_initialization(Matrix mat);
 };

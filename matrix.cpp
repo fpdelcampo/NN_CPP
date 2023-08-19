@@ -28,11 +28,29 @@ Matrix::Matrix() {
    data = d; 
 }
 Matrix::Matrix(double vec_data[], size_t len_vec, bool row_vec=true) {
-    std::vector<double> convert(vec_data,vec_data+len_vec); // this wraps the array into a vector
+    std::vector<double> convert((double *)vec_data, (double *)vec_data+len_vec); // this wraps the array into a vector
     // If row_vec, we need to make the vector 1xn
     // otherwise, we need to make the vector nx1
 
     std::vector<std::vector<double>> vec(1, convert);
+    data = vec;
+    
+    if(row_vec) {
+        rows = 1;
+        cols = len_vec;
+    }
+    else {
+        rows = len_vec;
+        cols = 1;
+        this->transpose();
+    }
+}
+Matrix::Matrix(std::vector<double> vec_data, size_t len_vec, bool row_vec=true) {
+    // std::vector<double> convert(vec_data,vec_data+len_vec); // this wraps the array into a vector
+    // If row_vec, we need to make the vector 1xn
+    // otherwise, we need to make the vector nx1
+
+    std::vector<std::vector<double>> vec(1, vec_data);
     data = vec;
     
     if(row_vec) {
@@ -156,21 +174,24 @@ Matrix Matrix::hadamard(const Matrix& other) const {
     }
     return result;
 }
-Matrix Matrix::ReLU() {
+Matrix Matrix::ReLU() const {
+    Matrix result(rows, cols);
     for(int i = 0; i<rows; i++) {
         for(int j = 0; j<cols; j++){
-            data[i][j] = data[i][j] > 0 ? data[i][j] : 0;
+            result.data[i][j] = result.data[i][j] > 0 ? result.data[i][j] : 0;
         }
     }
+    return result;
 }
-Matrix Matrix::dRelu() {
+Matrix Matrix::dRelu() const {
+    Matrix result(rows, cols);
     for(int i = 0; i<rows; i++) {
         for(int j = 0; j<cols; j++){
-            data[i][j] = data[i][j] > 0 ? 1 : 0;
+            result.data[i][j] = result.data[i][j] > 0 ? 1 : 0;
         }
     }
+    return result;
 }
-
 
 Matrix Matrix::uniform_initialization() {
     std::random_device rd;    // Seed the random number generator
@@ -186,6 +207,34 @@ Matrix Matrix::uniform_initialization() {
             data[i][j] = dist(gen);
         }
     }
+}
+
+Matrix Matrix::submatrix(int top, int left, int bottom, int right, bool include) const{
+    if(left > right) {
+        throw std::invalid_argument("Dimensions of arrays must match"); 
+    }
+    if(bottom < top) {
+        throw std::invalid_argument("Dimensions of arrays must match"); 
+    }
+    if(rows <= bottom) {
+        throw std::invalid_argument("Dimensions of arrays must match"); 
+    }
+    if(cols <= right) {
+        throw std::invalid_argument("Dimensions of arrays must match"); 
+    }
+    if(include) {
+        bottom+=1;
+        right+=1;
+    }
+    std::vector<std::vector<double>> new_data;
+    for(int i=top;i<bottom; i++) {
+        std::vector<double> row;
+        for(int j=left; j<right;j++) {
+            row.push_back(data[i][j]);
+        }
+        new_data.push_back(row);
+    }
+    return Matrix(right-left, bottom-top, new_data);
 }
 
 // Matrix Matrix::vec_mul(const std::vector vec) const {
