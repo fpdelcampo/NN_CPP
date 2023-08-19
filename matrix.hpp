@@ -19,9 +19,10 @@ public:
     Matrix operator+(const Matrix& other) const;
     Matrix operator-(const Matrix& other) const;
     Matrix operator*(const Matrix& other) const;
-    Matrix operator*(const float scalar) const;
+    Matrix operator*(const double scalar) const;
     Matrix hadamard(const Matrix& other) const;
     Matrix ReLU();
+    Matrix dReLU();
     // ~Matrix();
     // testing git
     // Instance Fields

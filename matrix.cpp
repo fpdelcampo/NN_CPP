@@ -133,7 +133,7 @@ Matrix Matrix::operator*(const Matrix& other) const {
     return result;
 }
 
-Matrix Matrix::operator*(const float scalar) const {
+Matrix Matrix::operator*(const double scalar) const {
     Matrix result(rows, cols);
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++ ) {
