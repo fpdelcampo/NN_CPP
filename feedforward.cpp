@@ -1,4 +1,5 @@
 #include "feedforward.hpp"
+#include "dense.hpp"
 #include <vector>
 
 FeedForward::FeedForward(std::vector<Dense> layers, double lr) {
@@ -26,7 +27,7 @@ void FeedForward::forward(Matrix in) {
     }
 }
 
-Matrix FeedForward::backward(Matrix y, Matrix y_pred) {
+void FeedForward::backward(Matrix y, Matrix y_pred) {
     double factor = double (1)/ double (y.rows);
     Matrix mat = (y_pred - y) * factor;
     for (int i = layers.size() - 1; i >= 0; i--) {
