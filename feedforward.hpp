@@ -13,7 +13,7 @@ class FeedForward {
         FeedForward(std::vector<int> layer_sizes, double lr);
         FeedForward(std::vector<Dense> layers, double lr);
         void forward(Matrix in);
-        Matrix backward(Matrix y, Matrix y_pred);
+        void backward(Matrix y, Matrix y_pred);
         void update();
         void train(Matrix X, Matrix y, int batch_size, int epochs);
 };

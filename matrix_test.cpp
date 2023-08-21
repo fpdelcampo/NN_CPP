@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "matrix.hpp"
+#include "simple_matrix.hpp"
 #include <chrono>
 
 int main() {
@@ -69,8 +70,6 @@ int main() {
         std::cout << std::endl;
     }
     printf("\n");
-
-    
     
     Matrix test8 = test7.transpose();
     for(int i=0; i<2; i++){
@@ -83,12 +82,17 @@ int main() {
     std::vector<std::vector<double>> data1;
     std::vector<std::vector<double>> data2;
 
+    std::vector<double> data3;
+    std::vector<double> data4;
+
     for(int i=0; i<512; i++) {
         std::vector<double> row1;
         std::vector<double> row2;
         for(int j=0; j<512; j++) {
             row1.push_back(i);
             row2.push_back(-i);
+            data3.push_back(i*j);
+            data4.push_back(-i-j);
         }
         data1.push_back(row1);
         data2.push_back(row2);
@@ -98,13 +102,20 @@ int main() {
 
     Matrix test9 = Matrix(512, 512, data1);
     Matrix test10 = Matrix(512, 512, data2);
+    SMatrix test11 = SMatrix(512, 512, data3);
+    SMatrix test12 = SMatrix(512, 512, data4);
 
     auto start = std::chrono::high_resolution_clock::now();
-    Matrix test11 = test9*test10;
+    Matrix test13 = test9*test10;
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
     std::cout << "Time taken: " << duration.count() << " seconds" << std::endl;
 
+    auto start2 = std::chrono::high_resolution_clock::now();
+    SMatrix test14 = test11*test12;
+    auto end2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration2 = end2 - start2;
+    std::cout << "Time taken: " << duration2.count() << " seconds" << std::endl;
 
     return 0;
 

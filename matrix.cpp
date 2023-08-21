@@ -127,6 +127,10 @@ Matrix Matrix::operator-(const Matrix& other) const {
     return result;
 }
 
+// See the following for speedup ideas: https://stackoverflow.com/questions/4300663/how-to-speed-up-matrix-multiplication-in-c
+// Use strassen for square matrices both with the same dimensions and whose dimensions are powers of 2
+// Explore free operators so the order doesn't matter
+// Read this: https://chryswoods.com/vector_c++/immintrin.html
 Matrix Matrix::operator*(const Matrix& other) const {
     if(cols != other.rows) {
         throw std::invalid_argument("Dimensions of arrays must match"); 
