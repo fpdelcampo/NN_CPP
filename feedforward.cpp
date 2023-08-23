@@ -16,7 +16,7 @@ FeedForward::FeedForward(std::vector<int> layer_sizes, double lr) {
 
 FeedForward::FeedForward() { // again, if the last arguments name is data, we get segfaults for some reason
     layers.push_back(Dense(2, 3));
-    layers.push_back(Dense(3, 2));
+    layers.push_back(Dense(3, 1));
     learning_rate = 0.001;
 }
 
@@ -49,7 +49,7 @@ void FeedForward::train(Matrix X, Matrix y, int batch_size, int epochs) {
         
         for (int i = 0; i < X.rows; i++) {
             forward(Matrix(X.data[i], X.cols, false));
-            backward(Matrix(y.data[i], y.cols, false), layers[layers.size() - 1].output);
+            backward(Matrix(y.data[i], y.cols, false), layers[layers.size() - 1].output); 
             update();
         }
     }

@@ -24,7 +24,7 @@ public:
     Matrix hadamard(const Matrix& other) const;
     Matrix ReLU() const;
     Matrix dRelu() const;
-    Matrix uniform_initialization();
+    void uniform_initialization();
     Matrix submatrix(int top, int left, int bottom, int right, bool include) const;
 
     // ~Matrix();

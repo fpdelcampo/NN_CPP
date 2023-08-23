@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <vector>
-#include "Matrix.hpp"
+#include "matrix.hpp"
 #include "dense.hpp"
 
 
@@ -12,7 +12,9 @@ Dense::Dense(size_t in, size_t out) {
     weights = Matrix(out, in);
     biases = Matrix(out, 1);
     gradient_weights = Matrix(out, in);
+    gradient_weights.uniform_initialization();
     gradient_biases = Matrix(out, 1);
+    gradient_biases.uniform_initialization();
     input = Matrix(in, 1);
     intermediary = Matrix(out, 1);
     output = Matrix(out, 1);

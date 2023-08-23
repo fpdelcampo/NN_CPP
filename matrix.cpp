@@ -33,16 +33,18 @@ Matrix::Matrix(double vec_data[], size_t len_vec, bool row_vec=true) {
     // otherwise, we need to make the vector nx1
 
     std::vector<std::vector<double>> vec(1, convert);
-    data = vec;
     
     if(row_vec) {
+        data.push_back(convert);
         rows = 1;
         cols = len_vec;
     }
     else {
+        for (size_t i = 0; i < len_vec; ++i) {
+            data.push_back(std::vector<double>{convert[i]});
+        }
         rows = len_vec;
         cols = 1;
-        this->transpose();
     }
 }
 Matrix::Matrix(std::vector<double> vec_data, size_t len_vec, bool row_vec=true) {
@@ -51,16 +53,18 @@ Matrix::Matrix(std::vector<double> vec_data, size_t len_vec, bool row_vec=true) 
     // otherwise, we need to make the vector nx1
 
     std::vector<std::vector<double>> vec(1, vec_data);
-    data = vec;
     
     if(row_vec) {
+        data = vec;
         rows = 1;
         cols = len_vec;
     }
     else {
+        for (size_t i = 0; i < len_vec; ++i) {
+            data.push_back(std::vector<double>{vec_data[i]});
+        }
         rows = len_vec;
         cols = 1;
-        this->transpose();
     }
 }
 // gave errors for some reason, something about a non-void function
@@ -121,7 +125,7 @@ Matrix Matrix::operator-(const Matrix& other) const {
     Matrix result(rows, cols);
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            result.data[i][j] = data[i][j] +- other.data[i][j];
+            result.data[i][j] = data[i][j] - other.data[i][j];
         }
     }
     return result;
@@ -131,6 +135,7 @@ Matrix Matrix::operator-(const Matrix& other) const {
 // Use strassen for square matrices both with the same dimensions and whose dimensions are powers of 2
 // Explore free operators so the order doesn't matter
 // Read this: https://chryswoods.com/vector_c++/immintrin.html
+// Maybe also this: https://developer.arm.com/documentation/den0018/a/NEON-Intrinsics/Using-NEON-intrinsics
 Matrix Matrix::operator*(const Matrix& other) const {
     if(cols != other.rows) {
         throw std::invalid_argument("Dimensions of arrays must match"); 
@@ -197,12 +202,12 @@ Matrix Matrix::dRelu() const {
     return result;
 }
 
-Matrix Matrix::uniform_initialization() {
+void Matrix::uniform_initialization() {
     std::random_device rd;    // Seed the random number generator
     std::mt19937 gen(rd());   // Mersenne Twister engine for random numbers
 
-    int minRange = -.1;        // Minimum value of the range
-    int maxRange = .1;        // Maximum value of the range
+    double minRange = -.1;        // Minimum value of the range
+    double maxRange = .1;        // Maximum value of the range
 
     std::uniform_int_distribution<int> dist(minRange, maxRange);
 
